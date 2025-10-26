@@ -1,0 +1,356 @@
+graph TB
+    Start([FastAPI Chat App Project<br/>REST API + WebSocket + PostgreSQL]) --> Phase1[Phase 1: FastAPI Application Setup]
+    
+    Phase1 --> P1A[FastAPI with Async/Await]
+    Phase1 --> P1B[SQLAlchemy Async + Alembic]
+    Phase1 --> P1C[Pydantic Models]
+    Phase1 --> P1D[WebSocket Chat Manager]
+    Phase1 --> P1E[REST API Endpoints]
+    Phase1 --> P1F[GraphQL with Graphene]
+    P1A --> Phase2
+    P1B --> Phase2
+    P1C --> Phase2
+    P1D --> Phase2
+    P1E --> Phase2
+    P1F --> Phase2
+    
+    Phase2[Phase 2: Async Server Configuration] --> P2A[Uvicorn with Multiple Workers]
+    Phase2 --> P2B[ASGI Lifespan Events]
+    Phase2 --> P2C[Async Connection Pooling]
+    Phase2 --> P2D[Redis for WebSocket State]
+    Phase2 --> P2E[Async PostgreSQL Driver: asyncpg]
+    P2A --> Phase3
+    P2B --> Phase3
+    P2C --> Phase3
+    P2D --> Phase3
+    P2E --> Phase3
+    
+    Phase3[Phase 3: Docker Multi-Stage Build] --> P3A[Python 3.11+ Slim Base]
+    Phase3 --> P3B[Install asyncpg + psycopg2-binary]
+    Phase3 --> P3C[Copy App + Requirements]
+    Phase3 --> P3D[Non-root User Setup]
+    Phase3 --> P3E[Health Check Script]
+    P3A --> Phase4
+    P3B --> Phase4
+    P3C --> Phase4
+    P3D --> Phase4
+    P3E --> Phase4
+    
+    Phase4[Phase 4: Docker Compose - Local Dev] --> P4A[FastAPI Service]
+    Phase4 --> P4B[PostgreSQL 15+ Service]
+    Phase4 --> P4C[Redis Service for Chat]
+    Phase4 --> P4D[PgAdmin Optional]
+    Phase4 --> P4E[Network Bridge Configuration]
+    P4A --> Phase5
+    P4B --> Phase5
+    P4C --> Phase5
+    P4D --> Phase5
+    P4E --> Phase5
+    
+    Phase5[Phase 5: Local Testing - Kind] --> P5A[Kind Cluster with Ingress]
+    Phase5 --> P5B[Deploy PostgreSQL StatefulSet]
+    Phase5 --> P5C[Deploy Redis StatefulSet]
+    Phase5 --> P5D[FastAPI Deployment + Service]
+    Phase5 --> P5E[Test WebSocket + REST APIs]
+    P5A --> Phase6
+    P5B --> Phase6
+    P5C --> Phase6
+    P5D --> Phase6
+    P5E --> Phase6
+    
+    Phase6[Phase 6: Terraform - VPC & Networking] --> P6A[VPC with Public/Private Subnets]
+    Phase6 --> P6B[3 Availability Zones]
+    Phase6 --> P6C[NAT Gateway + IGW]
+    Phase6 --> P6D[Route Tables]
+    Phase6 --> P6E[VPC Endpoints for AWS Services]
+    P6A --> Phase7
+    P6B --> Phase7
+    P6C --> Phase7
+    P6D --> Phase7
+    P6E --> Phase7
+    
+    Phase7[Phase 7: Terraform - RDS PostgreSQL] --> P7A[RDS PostgreSQL 15+]
+    Phase7 --> P7B[Multi-AZ Deployment]
+    Phase7 --> P7C[DB Subnet Group - Private Subnets]
+    Phase7 --> P7D[Security Group: EKS Access Only]
+    Phase7 --> P7E[Parameter Group: Async Optimization]
+    Phase7 --> P7F[Automated Backups + Encryption]
+    Phase7 --> P7G[Enhanced Monitoring]
+    P7A --> Phase8
+    P7B --> Phase8
+    P7C --> Phase8
+    P7D --> Phase8
+    P7E --> Phase8
+    P7F --> Phase8
+    P7G --> Phase8
+    
+    Phase8[Phase 8: Terraform - ElastiCache Redis] --> P8A[Redis Cluster Mode]
+    Phase8 --> P8B[Multi-AZ with Replica]
+    Phase8 --> P8C[Cache Subnet Group]
+    Phase8 --> P8D[Security Group Configuration]
+    Phase8 --> P8E[Pub/Sub for WebSocket Messages]
+    P8A --> Phase9
+    P8B --> Phase9
+    P8C --> Phase9
+    P8D --> Phase9
+    P8E --> Phase9
+    
+    Phase9[Phase 9: Terraform - EKS Cluster] --> P9A[EKS 1.28+ Cluster]
+    Phase9 --> P9B[Managed Node Groups - 3 AZs]
+    Phase9 --> P9C[IRSA for Pod IAM Roles]
+    Phase9 --> P9D[EKS Add-ons: VPC-CNI, CoreDNS]
+    Phase9 --> P9E[Cluster Autoscaler]
+    P9A --> Phase10
+    P9B --> Phase10
+    P9C --> Phase10
+    P9D --> Phase10
+    P9E --> Phase10
+    
+    Phase10[Phase 10: Terraform - ECR & Secrets] --> P10A[ECR Repository]
+    Phase10 --> P10B[Image Scanning Enabled]
+    Phase10 --> P10C[AWS Secrets Manager]
+    Phase10 --> P10D[Store DB Credentials]
+    Phase10 --> P10E[Store Redis Connection String]
+    Phase10 --> P10F[External Secrets Operator]
+    P10A --> Phase11
+    P10B --> Phase11
+    P10C --> Phase11
+    P10D --> Phase11
+    P10E --> Phase11
+    P10F --> Phase11
+    
+    Phase11[Phase 11: K8s Manifests - Database Setup] --> P11A[ConfigMap: RDS Endpoint]
+    Phase11 --> P11B[Secret: DB Credentials from AWS]
+    Phase11 --> P11C[ConfigMap: Redis Endpoint]
+    Phase11 --> P11D[Init Job: Run Alembic Migrations]
+    P11A --> Phase12
+    P11B --> Phase12
+    P11C --> Phase12
+    P11D --> Phase12
+    
+    Phase12[Phase 12: K8s - FastAPI Deployment] --> P12A[Deployment: 3+ Replicas]
+    Phase12 --> P12B[Resource Limits: CPU/Memory]
+    Phase12 --> P12C[Env Vars: DB + Redis URLs]
+    Phase12 --> P12D[Liveness: /health]
+    Phase12 --> P12E[Readiness: /health/ready]
+    Phase12 --> P12F[Pod Anti-Affinity: Multi-AZ]
+    Phase12 --> P12G[PodDisruptionBudget]
+    P12A --> Phase13
+    P12B --> Phase13
+    P12C --> Phase13
+    P12D --> Phase13
+    P12E --> Phase13
+    P12F --> Phase13
+    P12G --> Phase13
+    
+    Phase13[Phase 13: K8s Services] --> P13A[ClusterIP Service: Port 8000]
+    Phase13 --> P13B[Session Affinity: ClientIP]
+    Phase13 --> P13C[Service for REST APIs]
+    Phase13 --> P13D[Same Service for WebSocket]
+    P13A --> Phase14
+    P13B --> Phase14
+    P13C --> Phase14
+    P13D --> Phase14
+    
+    Phase14[Phase 14: Nginx Ingress Controller] --> P14A[Install via Helm]
+    Phase14 --> P14B[AWS NLB as Service Type]
+    Phase14 --> P14C[ConfigMap: WebSocket Timeouts]
+    Phase14 --> P14D[proxy-read-timeout: 3600s]
+    Phase14 --> P14E[proxy-send-timeout: 3600s]
+    Phase14 --> P14F[client-body-buffer-size: 10M]
+    P14A --> Phase15
+    P14B --> Phase15
+    P14C --> Phase15
+    P14D --> Phase15
+    P14E --> Phase15
+    P14F --> Phase15
+    
+    Phase15[Phase 15: Ingress Resources] --> P15A{Split Traffic}
+    P15A -->|REST API| P15B[Path: /api/*]
+    P15A -->|WebSocket| P15C[Path: /ws/*]
+    P15A -->|GraphQL| P15D[Path: /graphql]
+    Phase15 --> P15E[SSL/TLS: cert-manager]
+    Phase15 --> P15F[Annotations: WebSocket Upgrade]
+    Phase15 --> P15G[Sticky Sessions: cookie-based]
+    P15B --> Phase16
+    P15C --> Phase16
+    P15D --> Phase16
+    P15E --> Phase16
+    P15F --> Phase16
+    P15G --> Phase16
+    
+    Phase16[Phase 16: WebSocket Chat Implementation] --> P16A[ConnectionManager Class]
+    Phase16 --> P16B[Redis Pub/Sub for Broadcasting]
+    Phase16 --> P16C[User Authentication via JWT]
+    Phase16 --> P16D[Room-based Chat Channels]
+    Phase16 --> P16E[Message Persistence to PostgreSQL]
+    Phase16 --> P16F[Online Status Tracking]
+    Phase16 --> P16G[Reconnection Handling]
+    P16A --> Phase17
+    P16B --> Phase17
+    P16C --> Phase17
+    P16D --> Phase17
+    P16E --> Phase17
+    P16F --> Phase17
+    P16G --> Phase17
+    
+    Phase17[Phase 17: REST API Endpoints] --> P17A[User Management: CRUD]
+    Phase17 --> P17B[Chat Rooms: Create/Join/Leave]
+    Phase17 --> P17C[Message History: Pagination]
+    Phase17 --> P17D[File Upload to S3]
+    Phase17 --> P17E[Search Messages]
+    Phase17 --> P17F[User Presence API]
+    P17A --> Phase18
+    P17B --> Phase18
+    P17C --> Phase18
+    P17D --> Phase18
+    P17E --> Phase18
+    P17F --> Phase18
+    
+    Phase18[Phase 18: ArgoCD GitOps Setup] --> P18A[Install ArgoCD on EKS]
+    Phase18 --> P18B[Git Repo Structure]
+    Phase18 --> P18C[Application Manifests]
+    Phase18 --> P18D[Sync Policy: Auto]
+    Phase18 --> P18E[Helm Charts for FastAPI]
+    Phase18 --> P18F[Environment-specific Overlays]
+    P18A --> Phase19
+    P18B --> Phase19
+    P18C --> Phase19
+    P18D --> Phase19
+    P18E --> Phase19
+    P18F --> Phase19
+    
+    Phase19[Phase 19: CI/CD Pipeline] --> P19A[GitHub Actions / GitLab CI]
+    Phase19 --> P19B[Build Docker Image]
+    Phase19 --> P19C[Run Async Tests]
+    Phase19 --> P19D[Push to ECR with Tag]
+    Phase19 --> P19E[Update K8s Manifest in Git]
+    Phase19 --> P19F[ArgoCD Auto-Sync]
+    P19A --> Phase20
+    P19B --> Phase20
+    P19C --> Phase20
+    P19D --> Phase20
+    P19E --> Phase20
+    P19F --> Phase20
+    
+    Phase20[Phase 20: HPA - Auto Scaling] --> P20A[Metrics Server Installation]
+    Phase20 --> P20B[HPA: CPU 70% Threshold]
+    Phase20 --> P20C[HPA: Memory 80% Threshold]
+    Phase20 --> P20D[Custom Metrics: Active WebSockets]
+    Phase20 --> P20E[Min: 3 Pods, Max: 20 Pods]
+    P20A --> Phase21
+    P20B --> Phase21
+    P20C --> Phase21
+    P20D --> Phase21
+    P20E --> Phase21
+    
+    Phase21[Phase 21: Monitoring Stack] --> P21A[Prometheus: Scrape Metrics]
+    Phase21 --> P21B[Grafana Dashboards]
+    Phase21 --> P21C[Custom Metrics: WebSocket Count]
+    Phase21 --> P21D[DB Connection Pool Metrics]
+    Phase21 --> P21E[Redis Pub/Sub Metrics]
+    Phase21 --> P21F[API Latency Tracking]
+    P21A --> Phase22
+    P21B --> Phase22
+    P21C --> Phase22
+    P21D --> Phase22
+    P21E --> Phase22
+    P21F --> Phase22
+    
+    Phase22[Phase 22: Logging & Tracing] --> P22A[Fluent Bit: App Logs]
+    Phase22 --> P22B[CloudWatch Logs]
+    Phase22 --> P22C[Structured JSON Logging]
+    Phase22 --> P22D[AWS X-Ray for Tracing]
+    Phase22 --> P22E[Trace DB Queries]
+    Phase22 --> P22F[Trace Redis Operations]
+    P22A --> Phase23
+    P22B --> Phase23
+    P22C --> Phase23
+    P22D --> Phase23
+    P22E --> Phase23
+    P22F --> Phase23
+    
+    Phase23[Phase 23: Security Hardening] --> P23A[Network Policies: Restrict Traffic]
+    Phase23 --> P23B[RDS: Encryption at Rest/Transit]
+    Phase23 --> P23C[Redis: AUTH Token]
+    Phase23 --> P23D[Pod Security Standards]
+    Phase23 --> P23E[WAF on Load Balancer]
+    Phase23 --> P23F[Rate Limiting per User]
+    P23A --> Phase24
+    P23B --> Phase24
+    P23C --> Phase24
+    P23D --> Phase24
+    P23E --> Phase24
+    P23F --> Phase24
+    
+    Phase24[Phase 24: Database Optimization] --> P24A[Connection Pooling: asyncpg]
+    Phase24 --> P24B[Read Replicas for Queries]
+    Phase24 --> P24C[Indexes on Chat Tables]
+    Phase24 --> P24D[Partitioning Messages Table]
+    Phase24 --> P24E[Query Performance Monitoring]
+    P24A --> Phase25
+    P24B --> Phase25
+    P24C --> Phase25
+    P24D --> Phase25
+    P24E --> Phase25
+    
+    Phase25[Phase 25: Caching Strategy] --> P25A[Redis for Session Cache]
+    Phase25 --> P25B[Cache User Profiles]
+    Phase25 --> P25C[Cache Room Metadata]
+    Phase25 --> P25D[Cache Recent Messages]
+    Phase25 --> P25E[TTL Configuration]
+    P25A --> Phase26
+    P25B --> Phase26
+    P25C --> Phase26
+    P25D --> Phase26
+    P25E --> Phase26
+    
+    Phase26[Phase 26: Load Testing] --> P26A[Locust for REST API Load]
+    Phase26 --> P26B[WebSocket Load Testing]
+    Phase26 --> P26C[1000+ Concurrent Connections]
+    Phase26 --> P26D[Message Throughput Testing]
+    Phase26 --> P26E[DB Connection Pool Stress Test]
+    Phase26 --> P26F[Verify Auto-Scaling]
+    P26A --> Phase27
+    P26B --> Phase27
+    P26C --> Phase27
+    P26D --> Phase27
+    P26E --> Phase27
+    P26F --> Phase27
+    
+    Phase27[Phase 27: Disaster Recovery] --> P27A[RDS Automated Snapshots]
+    Phase27 --> P27B[Point-in-Time Recovery]
+    Phase27 --> P27C[Velero: K8s Cluster Backup]
+    Phase27 --> P27D[Redis AOF Persistence]
+    Phase27 --> P27E[Multi-AZ Failover Testing]
+    P27A --> Phase28
+    P27B --> Phase28
+    P27C --> Phase28
+    P27D --> Phase28
+    P27E --> Phase28
+    
+    Phase28[Phase 28: Cost Optimization] --> P28A[Right-size RDS Instance]
+    Phase28 --> P28B[Reserved Instances]
+    Phase28 --> P28C[EKS Spot Instances]
+    Phase28 --> P28D[CloudWatch Cost Alerts]
+    Phase28 --> P28E[S3 Lifecycle Policies]
+    P28A --> Done
+    P28B --> Done
+    P28C --> Done
+    P28D --> Done
+    P28E --> Done
+    
+    Done([Production Chat Application<br/>REST + WebSocket + PostgreSQL<br/>Fully Automated with ArgoCD])
+    
+    style Start fill:#e1f5e1
+    style Done fill:#e1f5e1
+    style Phase1 fill:#d4edda
+    style Phase2 fill:#d4edda
+    style Phase16 fill:#fff3cd
+    style Phase17 fill:#fff3cd
+    style Phase7 fill:#f8d7da
+    style Phase8 fill:#f8d7da
+    style Phase14 fill:#cfe2ff
+    style Phase15 fill:#cfe2ff
+    style Phase18 fill:#e7d4f5
+    style Phase19 fill:#e7d4f5
