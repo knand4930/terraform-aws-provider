@@ -1,0 +1,10 @@
+users:
+  - username: nand
+    roles: [AmazonEC2FullAccess]
+  - username: kishore
+    roles: [AmazonS3FullAccess]
+  - username: kumar
+    roles: [AmazonRDSDataFullAccess, AmazonEC2FullAccess, AmazonS3FullAccess]
+
+
+
